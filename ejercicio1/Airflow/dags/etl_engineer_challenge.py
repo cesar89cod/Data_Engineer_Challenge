@@ -16,7 +16,7 @@
 
 from airflow import DAG                                                # DAG: define el flujo de trabajo en Airflow.
 from airflow.operators.python import PythonOperator                    # PythonOperator: permite ejecutar funciones Python como tasks.
-from airflow.providers.standard.operators.empty import EmptyOperato    # Dummy Operator: start an end task.
+from airflow.providers.standard.operators.empty import EmptyOperator   # Dummy Operator: start an end task.
 from trino.dbapi import connect                                        # Cliente DB‑API para ejecutar SQL en Trino.
 from datetime import datetime, timedelta                               # datetime: define la fecha de inicio del DAG.
 import polars as pl                                                    # polars: librería de procesamiento de datos.
