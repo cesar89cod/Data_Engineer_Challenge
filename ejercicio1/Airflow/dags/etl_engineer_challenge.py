@@ -14,14 +14,14 @@
 #   consultables desde Trino.
 # ======================================================
 
-from airflow import DAG                              # DAG: define el flujo de trabajo en Airflow.
-from airflow.operators.python import PythonOperator  # PythonOperator: permite ejecutar funciones Python como tasks.
-from airflow.operators.dummy import DummyOperator    # Dummy Operator: start an end task.
-from trino.dbapi import connect                      # Cliente DB‑API para ejecutar SQL en Trino.
-from datetime import datetime, timedelta             # datetime: define la fecha de inicio del DAG.
-import polars as pl                                  # polars: librería de procesamiento de datos.
-import boto3                                         # boto3: cliente S3 compatible con MinIO.
-import os                                            # os: utilidades del sistema operativo.
+from airflow import DAG                                                # DAG: define el flujo de trabajo en Airflow.
+from airflow.operators.python import PythonOperator                    # PythonOperator: permite ejecutar funciones Python como tasks.
+from airflow.providers.standard.operators.empty import EmptyOperato    # Dummy Operator: start an end task.
+from trino.dbapi import connect                                        # Cliente DB‑API para ejecutar SQL en Trino.
+from datetime import datetime, timedelta                               # datetime: define la fecha de inicio del DAG.
+import polars as pl                                                    # polars: librería de procesamiento de datos.
+import boto3                                                           # boto3: cliente S3 compatible con MinIO.
+import os                                                              # os: utilidades del sistema operativo.
 
 ##############################################
 # DAG CONFIGURATION REQUIRED
@@ -199,9 +199,7 @@ with DAG(
 # Define workflow tasks
 ##############################################
 
-    start = DummyOperator(
-        task_id="start",
-    )
+    start = EmptyOperator(task_id="start")
 
     #1. Creación/verificación de buckets y existencia del file.
     t1 = PythonOperator(
@@ -234,9 +232,7 @@ with DAG(
     )
     
     
-    end = DummyOperator(
-        task_id="end",
-    )
+    end = EmptyOperator(task_id="end")
 
 
     start >> t1 >> t2 >> t3 >> t4 >> t5 >> end
