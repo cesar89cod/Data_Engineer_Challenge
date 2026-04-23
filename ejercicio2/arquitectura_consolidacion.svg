@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980">
+  <defs>
+    <style>
+      .title { font: 700 30px Arial, sans-serif; fill: #1f2937; }
+      .subtitle { font: 400 16px Arial, sans-serif; fill: #4b5563; }
+      .section { font: 700 20px Arial, sans-serif; fill: #111827; }
+      .label { font: 700 16px Arial, sans-serif; fill: #111827; }
+      .text { font: 400 14px Arial, sans-serif; fill: #374151; }
+      .small { font: 400 12px Arial, sans-serif; fill: #4b5563; }
+      .box { stroke: #334155; stroke-width: 2; rx: 16; ry: 16; }
+      .soft { stroke: #64748b; stroke-width: 1.5; rx: 14; ry: 14; }
+      .line { stroke: #475569; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 2; fill: none; stroke-dasharray: 8 6; marker-end: url(#arrow); }
+      .group { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 2; rx: 22; ry: 22; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1600" height="980" fill="#ffffff"/>
+  <text x="800" y="44" text-anchor="middle" class="title">Arquitectura para consolidación operativa y analítica</text>
+  <text x="800" y="72" text-anchor="middle" class="subtitle">Integración continua a T-1 de F1, F2 y F3 con dos salidas: SQL para operación y plataforma analítica para ciencia de datos</text>
+
+  <!-- Sources -->
+  <rect x="40" y="110" width="240" height="700" class="group"/>
+  <text x="160" y="145" text-anchor="middle" class="section">Fuentes 24/7</text>
+
+  <rect x="70" y="180" width="180" height="130" fill="#dbeafe" class="box"/>
+  <text x="160" y="215" text-anchor="middle" class="label">F1 - CRM propietario</text>
+  <text x="160" y="242" text-anchor="middle" class="text">Clientes</text>
+  <text x="160" y="264" text-anchor="middle" class="text">Demográficos y contacto</text>
+  <text x="160" y="286" text-anchor="middle" class="small">API / CDC / incremental</text>
+
+  <rect x="70" y="360" width="180" height="130" fill="#dcfce7" class="box"/>
+  <text x="160" y="395" text-anchor="middle" class="label">F2 - SQL Server</text>
+  <text x="160" y="422" text-anchor="middle" class="text">Transacciones</text>
+  <text x="160" y="444" text-anchor="middle" class="text">50% del portafolio</text>
+  <text x="160" y="466" text-anchor="middle" class="small">CDC / logs / incremental</text>
+
+  <rect x="70" y="540" width="180" height="130" fill="#fde68a" class="box"/>
+  <text x="160" y="575" text-anchor="middle" class="label">F3 - PostgreSQL</text>
+  <text x="160" y="602" text-anchor="middle" class="text">Transacciones</text>
+  <text x="160" y="624" text-anchor="middle" class="text">50% restante</text>
+  <text x="160" y="646" text-anchor="middle" class="small">CDC / WAL(logs) / incremental</text>
+
+  <text x="160" y="730" text-anchor="middle" class="text">Fuentes </text>
+  <text x="160" y="752" text-anchor="middle" class="text">modeladas de forma independiente</text>
+
+  <!-- Ingestion -->
+  <rect x="330" y="110" width="300" height="700" class="group"/>
+  <text x="480" y="145" text-anchor="middle" class="section">Ingesta e integración</text>
+
+  <rect x="375" y="180" width="210" height="110" fill="#ede9fe" class="box"/>
+  <text x="480" y="215" text-anchor="middle" class="label">Conectores(JDBC - API) / CDC (Captura cambios)</text>
+  <text x="480" y="242" text-anchor="middle" class="text">Captura de cambios y lotes</text>
+  <text x="480" y="264" text-anchor="middle" class="text">sin afectar operación 24/7</text>
+
+  <rect x="375" y="335" width="210" height="120" fill="#fce7f3" class="box"/>
+  <text x="480" y="370" text-anchor="middle" class="label">Landing / Raw Zone</text>
+  <text x="480" y="397" text-anchor="middle" class="text">Datos crudos históricos</text>
+  <text x="480" y="419" text-anchor="middle" class="text">trazabilidad y auditoría, generamos Raw de las 3 fuentes</text>
+
+  <rect x="375" y="500" width="210" height="165" fill="#e0f2fe" class="box"/>
+  <text x="480" y="535" text-anchor="middle" class="label">Procesamiento ELT/ETL</text>
+  <text x="480" y="562" text-anchor="middle" class="text">Normalización de clientes SCD2 hibrido</text>
+  <text x="480" y="584" text-anchor="middle" class="text">Unificación de productos</text>
+  <text x="480" y="606" text-anchor="middle" class="text">Calidad, deduplicación,</text>
+  <text x="480" y="628" text-anchor="middle" class="text">claves maestras y catálogo común</text>
+
+
+  <!-- Unified -->
+  <rect x="680" y="110" width="300" height="700" class="group"/>
+  <text x="830" y="145" text-anchor="middle" class="section">Capa consolidada</text>
+
+  <rect x="725" y="410" width="210" height="170" fill="#d1fae5" class="box"/>
+  <text x="830" y="445" text-anchor="middle" class="label">Data Lakehouse / DW</text>
+  <text x="830" y="472" text-anchor="middle" class="text">Histórico consolidado</text>
+  <text x="830" y="494" text-anchor="middle" class="text">Bronze / Silver / Gold</text>
+  <text x="830" y="516" text-anchor="middle" class="text">Hechos y dimensiones</text>
+  <text x="830" y="538" text-anchor="middle" class="text">particionadas y consultables</text>
+
+  <text x="830" y="650" text-anchor="middle" class="text">Punto único de verdad</text>
+
+  <!-- Operational SQL -->
+  <rect x="1030" y="110" width="250" height="320" class="group"/>
+  <text x="1155" y="145" text-anchor="middle" class="section">Propósito 1</text>
+  <text x="1155" y="168" text-anchor="middle" class="section">Consulta SQL operativa</text>
+
+  <rect x="1065" y="210" width="180" height="120" fill="#fef3c7" class="box"/>
+  <text x="1155" y="245" text-anchor="middle" class="label">Data Mart / SQL Endpoint</text>
+  <text x="1155" y="272" text-anchor="middle" class="text">Tablas de consumo gold</text>
+
+  <rect x="1065" y="350" width="180" height="55" fill="#f3f4f6" class="soft"/>
+  <text x="1155" y="383" text-anchor="middle" class="text">Usuarios operativos / BI SQL</text>
+
+  <!-- DS -->
+  <rect x="1030" y="470" width="520" height="340" class="group"/>
+  <text x="1290" y="505" text-anchor="middle" class="section">Propósito 2</text>
+  <text x="1290" y="528" text-anchor="middle" class="section">Ciencia de datos y analítica avanzada</text>
+
+  <rect x="1060" y="565" width="190" height="140" fill="#e9d5ff" class="box"/>
+  <text x="1155" y="600" text-anchor="middle" class="label">Sandbox</text>
+  <text x="1155" y="671" text-anchor="middle" class="text">muestras analíticas</text>
+
+  <rect x="1290" y="565" width="220" height="140" fill="#fee2e2" class="box"/>
+  <text x="1400" y="627" text-anchor="middle" class="text">Tablas de relaciones cliente-producto</text>
+  <text x="1400" y="649" text-anchor="middle" class="text">ó cliente-transacción-canal</text>
+
+  <rect x="1160" y="730" width="260" height="55" fill="#f3f4f6" class="soft"/>
+  <text x="1290" y="763" text-anchor="middle" class="text">Equipo de ciencia de datos</text>
+
+  <!-- Governance bottom -->
+  <rect x="330" y="845" width="1220" height="90" fill="#f8fafc" stroke="#94a3b8" stroke-width="2" rx="18" ry="18"/>
+  <text x="940" y="878" text-anchor="middle" class="label">Todo orquestado por AIRFLOW</text>
+  <text x="940" y="905" text-anchor="middle" class="text">Catálogo y metadatos · calidad de datos · seguridad y roles · monitoreo · linaje · versionado de pipelines</text>
+
+  <!-- Arrows from sources to ingestion -->
+  <path d="M250 245 C300 245, 320 245, 375 235" class="line"/>
+  <path d="M250 425 C300 425, 320 340, 375 235" class="line"/>
+  <path d="M250 605 C300 605, 320 430, 375 235" class="line"/>
+
+  <path d="M480 290 L480 335" class="line"/>
+  <path d="M480 455 L480 500" class="line"/>
+  <path d="M585 582 C650 582, 660 500, 725 500" class="line"/>
+
+
+  <path d="M935 500 C980 500, 1000 270, 1065 270" class="line"/>
+  <path d="M935 500 C980 500, 1000 635, 1060 635" class="line"/>
+  <path d="M935 500 C1040 500, 1130 635, 1290 635" class="line"/>
+
+  <path d="M1245 270 L1245 350" class="line"/>
+  <path d="M1400 705 L1400 730" class="line"/>
+  <path d="M1155 705 L1155 730" class="line"/>
+
+  <!-- callouts -->
+  <rect x="1210" y="190" width="250" height="85" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" rx="12" ry="12"/>
+  <text x="1335" y="218" text-anchor="middle" class="label">Justificación</text>
+  <text x="1335" y="240" text-anchor="middle" class="small">SQL rápido para operación diaria</text>
+  <text x="1335" y="258" text-anchor="middle" class="small">sin exponer complejidad del modelo crudo</text>
+
+  <rect x="1320" y="420" width="210" height="95" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" rx="12" ry="12"/>
+  <text x="1425" y="448" text-anchor="middle" class="label">Justificación</text>
+  <text x="1425" y="470" text-anchor="middle" class="small">Sandbox aislado sin romper prod</text>
+  <text x="1425" y="488" text-anchor="middle" class="small">y lakehouse para clustering/ML</text>
+</svg>
