@@ -1,6 +1,6 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-from airflow.providers.trino.operators.trino import TrinoOperator
+from trino.dbapi import connect
 from datetime import datetime
 import polars as pl
 import boto3
@@ -81,6 +81,31 @@ def transform_and_aggregate():
 def write_parquet_to_minio():
     s3 = get_s3_client()
     s3.upload_file(LOCAL_PARQUET, BRONZE_BUCKET, PARQUET_KEY)
+    
+def create_trino_objects():
+    conn = connect(
+        host="trino",
+        port=8080,
+        user="airflow",
+        catalog="bronze",
+        schema="default",
+    )
+    cur = conn.cursor()
+
+    cur.execute("CREATE SCHEMA IF NOT EXISTS bronze.prueba")
+
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS bronze.prueba.tbl_data (
+            name VARCHAR,
+            total_records INTEGER,
+            first_created_at TIMESTAMP,
+            last_created_at TIMESTAMP
+        )
+        WITH (
+            external_location = 's3://bck-bronze/master/',
+            format = 'PARQUET'
+        )
+    """)
 
 
 # -----------------------
@@ -114,27 +139,9 @@ with DAG(
         python_callable=write_parquet_to_minio,
     )
 
-    t5 = TrinoOperator(
-        task_id="create_schema_trino",
-        sql="CREATE SCHEMA IF NOT EXISTS bronze.prueba",
-        trino_conn_id="trino_default",
+    t5 = PythonOperator(
+    task_id="create_trino_schema_and_table",
+    python_callable=create_trino_objects,
     )
 
-    t6 = TrinoOperator(
-        task_id="create_table_trino",
-        sql="""
-        CREATE TABLE IF NOT EXISTS bronze.prueba.tbl_data (
-            name VARCHAR,
-            total_records INTEGER,
-            first_created_at TIMESTAMP,
-            last_created_at TIMESTAMP
-        )
-        WITH (
-            external_location = 's3://bck-bronze/master/',
-            format = 'PARQUET'
-        )
-        """,
-        trino_conn_id="trino_default",
-    )
-
-    t1 >> t2 >> t3 >> t4 >> t5 >> t6
+    t1 >> t2 >> t3 >> t4 >> t5
