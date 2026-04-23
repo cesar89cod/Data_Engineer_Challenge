@@ -39,12 +39,27 @@ def get_s3_client():
 # TASKS
 # -----------------------
 
-def ensure_buckets():
+def validate_landing_and_prepare_bronze():
     s3 = get_s3_client()
-    for bucket in [LANDING_BUCKET, BRONZE_BUCKET]:
-        existing = [b["Name"] for b in s3.list_buckets()["Buckets"]]
-        if bucket not in existing:
-            s3.create_bucket(Bucket=bucket)
+
+    buckets = [b["Name"] for b in s3.list_buckets()["Buckets"]]
+
+    # 1. Validar bucket landing
+    if LANDING_BUCKET not in buckets:
+        raise ValueError(f"Bucket requerido no existe: {LANDING_BUCKET}")
+
+    # 2. Validar que el archivo exista en landing
+    try:
+        s3.head_object(Bucket=LANDING_BUCKET, Key=CSV_KEY)
+    except Exception:
+        raise ValueError(
+            f"Archivo requerido no encontrado en MinIO: "
+            f"s3://{LANDING_BUCKET}/{CSV_KEY}"
+        )
+
+    # 3. Crear bucket bronze si no existe
+    if BRONZE_BUCKET not in buckets:
+        s3.create_bucket(Bucket=BRONZE_BUCKET)
 
 
 def read_csv_from_minio():
@@ -119,10 +134,12 @@ with DAG(
     tags=["etl", "minio", "polars", "trino"],
 ) as dag:
 
+
     t1 = PythonOperator(
-        task_id="ensure_buckets",
-        python_callable=ensure_buckets,
+        task_id="validate_landing_and_prepare_bronze",
+        python_callable=validate_landing_and_prepare_bronze,
     )
+
 
     t2 = PythonOperator(
         task_id="read_csv_from_minio",
