@@ -73,7 +73,7 @@ def transform_and_aggregate():
     # Limpieza básica
     df = df.with_columns(
         [
-            pl.col("name").str.strip().str.to_lowercase(),
+            pl.col("name").str.strip_chars().str.to_lowercase(),
             pl.col("created_at").str.strptime(pl.Datetime, strict=False),
         ]
     ).drop_nulls()
