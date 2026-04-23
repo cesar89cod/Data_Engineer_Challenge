@@ -16,6 +16,7 @@
 
 from airflow import DAG                              # DAG: define el flujo de trabajo en Airflow.
 from airflow.operators.python import PythonOperator  # PythonOperator: permite ejecutar funciones Python como tasks.
+from airflow.operators.dummy import DummyOperator    # Dummy Operator: start an end task.
 from trino.dbapi import connect                      # Cliente DB‑API para ejecutar SQL en Trino.
 from datetime import datetime, timedelta             # datetime: define la fecha de inicio del DAG.
 import polars as pl                                  # polars: librería de procesamiento de datos.
@@ -197,6 +198,11 @@ with DAG(
 ##############################################
 # Define workflow tasks
 ##############################################
+
+    start = DummyOperator(
+        task_id="start",
+    )
+
     #1. Creación/verificación de buckets y existencia del file.
     t1 = PythonOperator(
         task_id="validate_landing_and_prepare_bronze",
@@ -226,6 +232,12 @@ with DAG(
     task_id="create_trino_schema_and_table",
     python_callable=create_trino_objects,
     )
+    
+    
+    end = DummyOperator(
+        task_id="end",
+    )
 
-    t1 >> t2 >> t3 >> t4 >> t5
+
+    start >> t1 >> t2 >> t3 >> t4 >> t5 >> end
     
