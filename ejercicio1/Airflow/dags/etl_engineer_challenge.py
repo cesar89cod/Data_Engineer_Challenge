@@ -182,7 +182,7 @@ def create_trino_objects():
 ##############################################
 #Create the DAG
 with DAG(
-    WORKFLOW,
+    dag_id=WORKFLOW,
     default_args={
         'retries': 3,
         'retry_delay': timedelta(minutes=5),
