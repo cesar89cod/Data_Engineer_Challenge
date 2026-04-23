@@ -117,7 +117,7 @@ def create_trino_objects():
             last_created_at TIMESTAMP
         )
         WITH (
-            external_location = 's3://bck-bronze/master/',
+            external_location = 's3a://bck-bronze/master/',
             format = 'PARQUET'
         )
     """)
