@@ -114,7 +114,7 @@ def create_trino_objects():
 with DAG(
     dag_id="etl_engineer_challenge",
     start_date=datetime(2024, 1, 1),
-    schedule_interval=None,
+    schedule=None,
     catchup=False,
     tags=["etl", "minio", "polars", "trino"],
 ) as dag:
